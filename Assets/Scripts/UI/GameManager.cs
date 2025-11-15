@@ -38,4 +38,8 @@ public class GameManager : MonoBehaviour
     {
         if (coinText) coinText.text = $"x {coins}";
     }
+
+    public int GetCoins()
+    { return coins;
+    }
 }
