@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class StompKill : MonoBehaviour
 {
@@ -15,7 +16,6 @@ public class StompKill : MonoBehaviour
 
     void Start()
     {
-        // Auto-find WinUI if not wired in Inspector
         if (winUI == null)
         {
 #if UNITY_600_0_OR_NEWER
@@ -48,9 +48,23 @@ public class StompKill : MonoBehaviour
         if (hurter) hurter.DisableHurter();
         foreach (var c in enemyRoot.GetComponentsInChildren<Collider2D>()) c.enabled = false;
 
-        // if this enemy is the boss, show win UI
-        if (enemyRoot.GetComponent<BossMarker>() && winUI != null)
-            winUI.Show();
+        // if this enemy is the boss, next scene.
+        if (enemyRoot.GetComponent<BossMarker>())
+        {
+            int nextIndex = SceneManager.GetActiveScene().buildIndex + 1;
+
+            // only load if there *is* a next scene in Build Settings
+            if (nextIndex < SceneManager.sceneCountInBuildSettings)
+            {
+                SceneManager.LoadScene(nextIndex);
+            }
+            else
+            {
+                // fallback: if no next scene, just show the win UI (optional)
+                if (winUI != null)
+                    winUI.Show();
+            }
+        }
 
         // delete enemy shortly after
         Destroy(enemyRoot, 0.05f);
