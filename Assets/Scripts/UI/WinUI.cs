@@ -59,7 +59,7 @@ public class WinUI : MonoBehaviour
             coinsText.text = $"Coins: {starRating.CoinsCollected}/{starRating.TotalCoins}";
 
         if (damageText)
-            damageText.text = $"No Damage: {(!starRating.TookDamage ? "Yes" : "No")}";
+            damageText.text = $"Damage: {(!starRating.TookDamage ? "Yes" : "No")}";
 
         if (performanceText)
             performanceText.text = starRating.GetPerformanceSummary();
